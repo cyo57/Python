@@ -1,0 +1,30 @@
+import webbrowser
+#import webdriver
+import requests
+
+def qzoneLogin(qq):
+    #webdriver =
+    user_num = input("输入你的qq号码: \n")
+    user_pw = input("输入你的密码: \n")
+
+    browser = webbrowser.Opera()#模拟Chrome访问网页
+    #browser.maximize_window()
+
+    browser.get('https://user.qzone.qq.com/{}/main'.format(qq))#欲请求的用户空间
+    browser.switch_to_frame('login_frame')#选择frame
+
+    #通过使用选择器选择到表单元素进行模拟输入和点击按钮提交
+    browser.find_element_by_id('switcher_plogin').click()
+    browser.find_element_by_id('u').clear()
+    browser.find_element_by_id('u').send_keys(user_num)
+    browser.find_element_by_id('p').clear()
+    browser.find_element_by_id('p').send_keys(user_pw)
+    browser.find_element_by_id('login_button').click()
+
+    res = requests.get('https://user.qzone.qq.com/{}/main'.format(qq))
+    
+    print(res)
+
+QQID = input("欲请求的ID: \n")
+
+qzoneLogin(QQID)
